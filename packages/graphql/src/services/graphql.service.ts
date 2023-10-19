@@ -167,7 +167,8 @@ export class GraphqlService implements BackendService {
     if (this.options.extraQueryArguments) {
       // first: 20, ... userId: 123
       for (const queryArgument of this.options.extraQueryArguments) {
-        (datasetFilters as any)[queryArgument.field] = queryArgument.value;
+        const value = typeof queryArgument.value === 'function' ? queryArgument.value() : queryArgument.value;
+        (datasetFilters as any)[queryArgument.field] = value;
       }
     }
 

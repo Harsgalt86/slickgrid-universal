@@ -362,13 +362,13 @@ describe('GraphqlService', () => {
     });
 
     it('should include extra query arguments in the query string when option "extraQueryArguments" is used', () => {
-      const expectation = `query{users(first:10, offset:0, userId:123, firstName:"John"){ totalCount, nodes{id,field1,field2}}}`;
+      const expectation = `query{users(first:10, offset:0, userId:123, firstName:"John", lastName:"Z"){ totalCount, nodes{id,field1,field2}}}`;
       const columns = [{ id: 'field1', field: 'field1', width: 100 }, { id: 'field2', field: 'field2', width: 100 }];
       jest.spyOn(gridStub, 'getColumns').mockReturnValue(columns);
 
       service.init({
         datasetName: 'users',
-        extraQueryArguments: [{ field: 'userId', value: 123 }, { field: 'firstName', value: 'John' }],
+        extraQueryArguments: [{ field: 'userId', value: 123 }, { field: 'firstName', value: ('John') }, { field: 'lastName', value: () => "Z" }, ],
       }, paginationOptions, gridStub);
       const query = service.buildQuery();
 
