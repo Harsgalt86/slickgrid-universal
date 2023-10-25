@@ -1,0 +1,1 @@
+{"version":3,"file":"singleSelectEditor.js","sourceRoot":"","sources":["../../../src/editors/singleSelectEditor.ts"],"names":[],"mappings":";;;AACA,iDAA8C;AAE9C,MAAa,kBAAmB,SAAQ,2BAAY;IAClD;;OAEG;IACH,YAA+B,IAAqB,EAAS,eAAe,CAAC;QAC3E,KAAK,CAAC,IAAI,EAAE,KAAK,EAAE,YAAY,CAAC,CAAC;QADJ,SAAI,GAAJ,IAAI,CAAiB;QAAS,iBAAY,GAAZ,YAAY,CAAI;IAE7E,CAAC;CACF;AAPD,gDAOC"}

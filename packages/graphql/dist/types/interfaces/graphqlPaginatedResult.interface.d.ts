@@ -1,0 +1,22 @@
+import type { Metrics } from '@slickgrid-universal/common';
+import { PageInfo } from './graphqlPageInfo.interface';
+export interface GraphqlPaginatedResult {
+    data: {
+        [datasetName: string]: {
+            /** result set of data objects (array of data) */
+            nodes: any[];
+            /** Total count of items in the table (needed for the Pagination to work) */
+            totalCount: number;
+            /** Edges information of the current cursor */
+            edges?: {
+                /** Current cursor position */
+                cursor: string;
+            };
+            /** Page information of the current cursor, do we have a next page and what is the end cursor? */
+            pageInfo?: PageInfo;
+        };
+    };
+    /** Some metrics of the last executed query (startTime, endTime, executionTime, itemCount, totalItemCount) */
+    metrics?: Metrics;
+}
+//# sourceMappingURL=graphqlPaginatedResult.interface.d.ts.map

@@ -1,0 +1,1 @@
+{"version":3,"file":"toggleStateChangeType.d.ts","sourceRoot":"","sources":["../../../src/enums/toggleStateChangeType.ts"],"names":[],"mappings":"AAAA,MAAM,MAAM,2BAA2B,GAAG,iBAAiB,GAAG,eAAe,GAAG,eAAe,GAAG,aAAa,CAAC;AAEhH,oBAAY,qBAAqB;IAC/B,yBAAyB;IACzB,cAAc,oBAAoB;IAElC,uBAAuB;IACvB,UAAU,gBAAgB;IAE1B,2BAA2B;IAC3B,YAAY,kBAAkB;IAE9B,yBAAyB;IACzB,YAAY,kBAAkB;CAC/B"}

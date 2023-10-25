@@ -1,0 +1,1 @@
+{"version":3,"file":"cellArgs.interface.d.ts","sourceRoot":"","sources":["../../../src/interfaces/cellArgs.interface.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,SAAS,EAAE,MAAM,uBAAuB,CAAC;AAEvD,MAAM,WAAW,QAAQ;IACvB,GAAG,EAAE,MAAM,CAAC;IACZ,IAAI,EAAE,MAAM,CAAC;IACb,IAAI,EAAE,SAAS,CAAC;IAChB,IAAI,CAAC,EAAE,GAAG,CAAC;CACZ"}

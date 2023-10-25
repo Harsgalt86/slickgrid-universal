@@ -1,0 +1,1 @@
+{"version":3,"file":"metrics.interface.d.ts","sourceRoot":"","sources":["../../../src/interfaces/metrics.interface.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,OAAO;IACtB,yBAAyB;IACzB,SAAS,EAAE,IAAI,CAAC;IAEhB,uBAAuB;IACvB,OAAO,CAAC,EAAE,IAAI,CAAC;IAEf,6CAA6C;IAC7C,aAAa,CAAC,EAAE,MAAM,CAAC;IAEvB,gCAAgC;IAChC,SAAS,CAAC,EAAE,MAAM,CAAC;IAEnB,wFAAwF;IACxF,cAAc,EAAE,MAAM,CAAC;CACxB"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"hideColumnOption.interface.d.ts","sourceRoot":"","sources":["../../../src/interfaces/hideColumnOption.interface.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,gBAAgB;IAC/B,sGAAsG;IACtG,iBAAiB,CAAC,EAAE,OAAO,CAAC;IAE5B,2HAA2H;IAC3H,oBAAoB,CAAC,EAAE,OAAO,CAAC;IAE/B,uHAAuH;IACvH,gBAAgB,CAAC,EAAE,OAAO,CAAC;IAE3B,8GAA8G;IAC9G,YAAY,CAAC,EAAE,OAAO,CAAC;CACxB"}

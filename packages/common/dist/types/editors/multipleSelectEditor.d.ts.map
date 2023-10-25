@@ -1,0 +1,1 @@
+{"version":3,"file":"multipleSelectEditor.d.ts","sourceRoot":"","sources":["../../../src/editors/multipleSelectEditor.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,eAAe,EAAE,MAAM,yCAAyC,CAAC;AAC/E,OAAO,EAAE,YAAY,EAAE,MAAM,gBAAgB,CAAC;AAE9C,qBAAa,oBAAqB,SAAQ,YAAY;IAIxC,SAAS,CAAC,QAAQ,CAAC,IAAI,EAAE,eAAe;IAAS,YAAY;IAHzE;;OAEG;gBAC4B,IAAI,EAAE,eAAe,EAAS,YAAY,SAAI;CAG9E"}

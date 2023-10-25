@@ -1,0 +1,184 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
+import { titleCase } from '@slickgrid-universal/utils';
+import { createDomElement, sanitizeTextByAvailableSanitizer } from '../services/domUtilities';
+import { SlickColumnPicker } from './slickColumnPicker';
+import { SlickGridMenu } from './slickGridMenu';
+/** Create a Close button element and add it to the Menu element */
+export function addCloseButtomElement(menuElm) {
+    const context = this;
+    const closePickerButtonElm = createDomElement('button', {
+        type: 'button', className: 'close',
+        ariaLabel: 'Close',
+        innerHTML: '&times;',
+        dataset: { dismiss: context instanceof SlickColumnPicker ? 'slick-column-picker' : 'slick-grid-menu' }
+    });
+    menuElm.appendChild(closePickerButtonElm);
+}
+/** When "columnTitle" option is provided, let's create a div element to show "Columns" list title */
+export function addColumnTitleElementWhenDefined(menuElm) {
+    var _a, _b, _c;
+    const context = this;
+    if ((_a = context.addonOptions) === null || _a === void 0 ? void 0 : _a.columnTitle) {
+        context._columnTitleElm = createDomElement('div', { className: 'slick-menu-title', textContent: (_c = (_b = context.addonOptions) === null || _b === void 0 ? void 0 : _b.columnTitle) !== null && _c !== void 0 ? _c : context._defaults.columnTitle }, menuElm);
+    }
+}
+/**
+ * When clicking an input checkboxes from the column picker list to show/hide a column (or from the picker extra commands like forcefit columns)
+ * @param event - input checkbox event
+ * @returns
+ */
+export function handleColumnPickerItemClick(event) {
+    var _a, _b;
+    const context = this;
+    const controlType = context instanceof SlickColumnPicker ? 'columnPicker' : 'gridMenu';
+    if (event.target.dataset.option === 'autoresize') {
+        // when calling setOptions, it will resize with ALL Columns (even the hidden ones)
+        // we can avoid this problem by keeping a reference to the visibleColumns before setOptions and then setColumns after
+        const previousVisibleColumns = context.getVisibleColumns();
+        event.target.ariaChecked = String(event.target.checked);
+        const isChecked = event.target.checked;
+        context.grid.setOptions({ forceFitColumns: isChecked });
+        context.grid.setColumns(previousVisibleColumns);
+        return;
+    }
+    if (event.target.dataset.option === 'syncresize') {
+        event.target.ariaChecked = String(event.target.checked);
+        context.grid.setOptions({ syncColumnCellResize: !!(event.target.checked) });
+        return;
+    }
+    if (event.target.type === 'checkbox') {
+        context._areVisibleColumnDifferent = true;
+        event.target.ariaChecked = String(event.target.checked);
+        const isChecked = event.target.checked;
+        const columnId = event.target.dataset.columnid || '';
+        const visibleColumns = [];
+        context._columnCheckboxes.forEach((columnCheckbox, idx) => {
+            if (columnCheckbox.checked) {
+                visibleColumns.push(context.columns[idx]);
+            }
+        });
+        if (!visibleColumns.length) {
+            event.target.checked = true;
+            return;
+        }
+        context.grid.setColumns(visibleColumns);
+        // keep reference to the updated visible columns list
+        if (!context.sharedService.visibleColumns || (Array.isArray(visibleColumns) && visibleColumns.length !== context.sharedService.visibleColumns.length)) {
+            context.sharedService.visibleColumns = visibleColumns;
+        }
+        // when using row selection, SlickGrid will only apply the "selected" CSS class on the visible columns only
+        // and if the row selection was done prior to the column being shown then that column that was previously hidden (at the time of the row selection)
+        // will not have the "selected" CSS class because it wasn't visible at the time.
+        // To bypass this problem we can simply recall the row selection with the same selection and that will trigger a re-apply of the CSS class
+        // on all columns including the column we just made visible
+        if (context.gridOptions.enableRowSelection && isChecked) {
+            const rowSelection = context.grid.getSelectedRows();
+            context.grid.setSelectedRows(rowSelection);
+        }
+        // if we're using frozen columns, we need to readjust pinning when the new hidden column becomes visible again on the left pinning container
+        // we need to readjust frozenColumn index because SlickGrid freezes by index and has no knowledge of the columns themselves
+        const frozenColumnIndex = (_a = context.gridOptions.frozenColumn) !== null && _a !== void 0 ? _a : -1;
+        if (frozenColumnIndex >= 0) {
+            context.extensionUtility.readjustFrozenColumnIndexWhenNeeded(frozenColumnIndex, context.columns, visibleColumns);
+        }
+        const callbackArgs = {
+            columnId,
+            showing: isChecked,
+            allColumns: context.columns,
+            visibleColumns,
+            columns: visibleColumns,
+            grid: context.grid
+        };
+        // execute user callback when defined
+        context.pubSubService.publish(`on${titleCase(controlType)}ColumnsChanged`, callbackArgs);
+        if (typeof ((_b = context.addonOptions) === null || _b === void 0 ? void 0 : _b.onColumnsChanged) === 'function') {
+            context.addonOptions.onColumnsChanged(event, callbackArgs);
+        }
+        context.onColumnsChanged.notify(callbackArgs, null, context);
+    }
+}
+export function populateColumnPicker(addonOptions) {
+    var _a, _b;
+    const context = this;
+    const menuPrefix = context instanceof SlickGridMenu ? 'gridmenu-' : '';
+    for (const column of context.columns) {
+        const columnId = column.id;
+        const columnLiElm = document.createElement('li');
+        if (column.excludeFromColumnPicker) {
+            columnLiElm.className = 'hidden';
+        }
+        const colInputElm = createDomElement('input', {
+            type: 'checkbox', id: `${context._gridUid}-${menuPrefix}colpicker-${columnId}`,
+            dataset: { columnid: `${columnId}` }
+        });
+        const colIndex = context.grid.getColumnIndex(columnId);
+        if (colIndex >= 0) {
+            colInputElm.ariaChecked = 'true';
+            colInputElm.checked = true;
+        }
+        columnLiElm.appendChild(colInputElm);
+        context._columnCheckboxes.push(colInputElm);
+        const headerColumnValueExtractorFn = typeof (addonOptions === null || addonOptions === void 0 ? void 0 : addonOptions.headerColumnValueExtractor) === 'function' ? addonOptions.headerColumnValueExtractor : context._defaults.headerColumnValueExtractor;
+        const columnLabel = headerColumnValueExtractorFn(column, context.gridOptions);
+        columnLiElm.appendChild(createDomElement('label', {
+            htmlFor: `${context._gridUid}-${menuPrefix}colpicker-${columnId}`,
+            innerHTML: sanitizeTextByAvailableSanitizer(context.gridOptions, columnLabel),
+        }));
+        context._listElm.appendChild(columnLiElm);
+    }
+    if (!addonOptions.hideForceFitButton || !addonOptions.hideSyncResizeButton) {
+        context._listElm.appendChild(document.createElement('hr'));
+    }
+    if (!(addonOptions === null || addonOptions === void 0 ? void 0 : addonOptions.hideForceFitButton)) {
+        const fitLiElm = document.createElement('li');
+        fitLiElm.appendChild(createDomElement('input', {
+            type: 'checkbox', id: `${context._gridUid}-${menuPrefix}colpicker-forcefit`,
+            ariaChecked: String(context.gridOptions.forceFitColumns),
+            checked: context.gridOptions.forceFitColumns,
+            dataset: { option: 'autoresize' }
+        }));
+        fitLiElm.appendChild(createDomElement('label', {
+            htmlFor: `${context._gridUid}-${menuPrefix}colpicker-forcefit`,
+            textContent: (_a = addonOptions === null || addonOptions === void 0 ? void 0 : addonOptions.forceFitTitle) !== null && _a !== void 0 ? _a : '',
+        }));
+        context._listElm.appendChild(fitLiElm);
+    }
+    if (!(addonOptions === null || addonOptions === void 0 ? void 0 : addonOptions.hideSyncResizeButton)) {
+        const syncLiElm = document.createElement('li');
+        syncLiElm.appendChild(createDomElement('input', {
+            type: 'checkbox', id: `${context._gridUid}-${menuPrefix}colpicker-syncresize`,
+            ariaChecked: String(context.gridOptions.syncColumnCellResize),
+            checked: context.gridOptions.syncColumnCellResize,
+            dataset: { option: 'syncresize' }
+        }));
+        syncLiElm.appendChild(createDomElement('label', {
+            htmlFor: `${context._gridUid}-${menuPrefix}colpicker-syncresize`,
+            textContent: (_b = addonOptions === null || addonOptions === void 0 ? void 0 : addonOptions.syncResizeTitle) !== null && _b !== void 0 ? _b : ''
+        }));
+        context._listElm.appendChild(syncLiElm);
+    }
+}
+/**
+ * Because columns can be reordered, we have to update the `columns` to reflect the new order, however we can't just take `grid.getColumns()`,
+ * as it does not include columns currently hidden by the picker. We create a new `columns` structure by leaving currently-hidden
+ * columns in their original ordinal position and interleaving the results of the current column sort.
+ */
+export function updateColumnPickerOrder() {
+    const context = this;
+    const current = context.grid.getColumns().slice(0);
+    const ordered = new Array(context.columns.length);
+    for (let i = 0; i < ordered.length; i++) {
+        const columnIdx = context.grid.getColumnIndex(context.columns[i].id);
+        if (columnIdx === undefined) {
+            // if the column doesn't return a value from getColumnIndex, it is hidden. Leave it in this position.
+            ordered[i] = context.columns[i];
+        }
+        else {
+            // otherwise, grab the next visible column.
+            ordered[i] = current.shift();
+        }
+    }
+    // the new set of ordered columns becomes the new set of column picker columns
+    context._columns = ordered;
+}
+//# sourceMappingURL=extensionCommonUtils.js.map

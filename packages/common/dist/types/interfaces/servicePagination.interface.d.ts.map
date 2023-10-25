@@ -1,0 +1,1 @@
+{"version":3,"file":"servicePagination.interface.d.ts","sourceRoot":"","sources":["../../../src/interfaces/servicePagination.interface.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,UAAU,EAAE,MAAM,wBAAwB,CAAC;AAEzD,MAAM,WAAW,iBAAkB,SAAQ,UAAU;IACnD,wEAAwE;IACxE,SAAS,CAAC,EAAE,MAAM,CAAC;IAEnB,sEAAsE;IACtE,QAAQ,CAAC,EAAE,MAAM,CAAC;IAElB,gEAAgE;IAChE,MAAM,CAAC,EAAE,MAAM,CAAC;CACjB"}

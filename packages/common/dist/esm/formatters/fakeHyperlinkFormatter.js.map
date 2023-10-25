@@ -1,0 +1,1 @@
+{"version":3,"file":"fakeHyperlinkFormatter.js","sourceRoot":"","sources":["../../../src/formatters/fakeHyperlinkFormatter.ts"],"names":[],"mappings":"AAEA,kJAAkJ;AAClJ,MAAM,CAAC,MAAM,sBAAsB,GAAc,CAAC,IAAI,EAAE,KAAK,EAAE,KAAK,EAAE,EAAE;IACtE,OAAO,KAAK,CAAC,CAAC,CAAC,gCAAgC,KAAK,SAAS,CAAC,CAAC,CAAC,EAAE,CAAC;AACrE,CAAC,CAAC"}

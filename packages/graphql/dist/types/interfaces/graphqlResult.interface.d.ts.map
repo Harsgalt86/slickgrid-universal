@@ -1,0 +1,1 @@
+{"version":3,"file":"graphqlResult.interface.d.ts","sourceRoot":"","sources":["../../../src/interfaces/graphqlResult.interface.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,OAAO,EAAE,MAAM,6BAA6B,CAAC;AAE3D,MAAM,WAAW,aAAa,CAAC,CAAC,GAAG,GAAG;IACpC,IAAI,EAAE;QACJ,CAAC,WAAW,EAAE,MAAM,GAAG,CAAC,EAAE,CAAC;KAC5B,CAAC;IAEF,6GAA6G;IAC7G,OAAO,CAAC,EAAE,OAAO,CAAC;CACnB"}

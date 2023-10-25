@@ -1,0 +1,1 @@
+{"version":3,"file":"extensionModel.interface.d.ts","sourceRoot":"","sources":["../../../src/interfaces/extensionModel.interface.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,aAAa,EAAE,gBAAgB,EAAE,eAAe,EAAE,MAAM,gBAAgB,CAAC;AAEvF,MAAM,WAAW,cAAc,CAAC,CAAC,SAAS,CAAC,gBAAgB,GAAG,eAAe,CAAC;IAC5E,gDAAgD;IAChD,IAAI,EAAE,aAAa,CAAC;IAEpB,oEAAoE;IACpE,QAAQ,EAAE,CAAC,CAAC;CACb"}

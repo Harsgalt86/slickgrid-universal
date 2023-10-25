@@ -1,0 +1,1 @@
+{"version":3,"file":"extensionList.type.d.ts","sourceRoot":"","sources":["../../../src/enums/extensionList.type.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,aAAa,EAAE,gBAAgB,EAAE,eAAe,EAAE,MAAM,SAAS,CAAC;AAChF,OAAO,KAAK,EAAE,cAAc,EAAE,MAAM,qBAAqB,CAAC;AAE1D,MAAM,MAAM,aAAa,CAAC,CAAC,SAAS,CAAC,gBAAgB,GAAG,eAAe,CAAC,IAAI,MAAM,CAAC,aAAa,EAAE,cAAc,CAAC,CAAC,CAAC,CAAC,CAAC"}
