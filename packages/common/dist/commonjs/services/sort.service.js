@@ -520,12 +520,12 @@ class SortService {
         const columnDefinitions = this._grid.getColumns();
         // loop through column definition to hide/show header menu commands
         columnDefinitions.forEach((col) => {
-            var _a;
+            var _a, _b;
             if (typeof col.sortable !== undefined) {
                 col.sortable = !isDisabling;
             }
             if ((_a = col === null || col === void 0 ? void 0 : col.header) === null || _a === void 0 ? void 0 : _a.menu) {
-                col.header.menu.items.forEach(menuItem => {
+                (_b = (col.header.menu.commandItems || col.header.menu.items)) === null || _b === void 0 ? void 0 : _b.forEach(menuItem => {
                     if (menuItem && typeof menuItem !== 'string') {
                         const menuCommand = menuItem.command;
                         if (menuCommand === 'sort-asc' || menuCommand === 'sort-desc' || menuCommand === 'clear-sort') {

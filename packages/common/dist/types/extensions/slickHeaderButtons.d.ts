@@ -45,6 +45,6 @@ export declare class SlickHeaderButtons extends MenuBaseClass<HeaderButton> {
         column: Column;
         node: HTMLElement;
     }): void;
-    protected handleButtonClick(event: DOMEvent<HTMLDivElement>, _type: MenuType, button: ExtractMenuType<ExtendableItemTypes, MenuType>, columnDef?: Column): void;
+    protected handleButtonClick(event: DOMEvent<HTMLDivElement>, _type: MenuType, button: ExtractMenuType<ExtendableItemTypes, MenuType>, level: number, columnDef?: Column): void;
 }
 //# sourceMappingURL=slickHeaderButtons.d.ts.map

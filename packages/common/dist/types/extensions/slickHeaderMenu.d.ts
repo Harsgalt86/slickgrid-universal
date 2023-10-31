@@ -1,5 +1,5 @@
 import type { BasePubSubService } from '@slickgrid-universal/event-pub-sub';
-import type { Column, DOMEvent, HeaderMenu, HeaderMenuCommandItemCallbackArgs, HeaderMenuItems, HeaderMenuOption, MenuCommandItemCallbackArgs, OnHeaderCellRenderedEventArgs } from '../interfaces/index';
+import type { Column, DOMEvent, DOMMouseOrTouchEvent, HeaderMenu, HeaderMenuCommandItem, HeaderMenuItems, HeaderMenuOption, MenuCommandItemCallbackArgs, OnHeaderCellRenderedEventArgs } from '../interfaces/index';
 import type { ExtensionUtility } from '../extensions/extensionUtility';
 import type { FilterService } from '../services/filter.service';
 import type { SharedService } from '../services/shared.service';
@@ -12,7 +12,7 @@ import { type ExtendableItemTypes, type ExtractMenuType, MenuBaseClass, type Men
  *     id: 'myColumn', name: 'My column',
  *     header: {
  *       menu: {
- *         items: [{ ...menu item options... }, { ...menu item options... }]
+ *         commandItems: [{ ...menu item options... }, { ...menu item options... }]
  *       }
  *     }
  *   }];
@@ -23,7 +23,8 @@ export declare class SlickHeaderMenu extends MenuBaseClass<HeaderMenu> {
     protected readonly pubSubService: BasePubSubService;
     protected readonly sharedService: SharedService;
     protected readonly sortService: SortService;
-    protected _activeHeaderColumnElm?: HTMLDivElement;
+    protected _activeHeaderColumnElm?: HTMLDivElement | null;
+    protected _subMenuParentId: string;
     protected _defaults: HeaderMenuOption;
     pluginName: 'HeaderMenu';
     /** Constructor of the SlickGrid 3rd party plugin, it can optionally receive options */
@@ -36,7 +37,8 @@ export declare class SlickHeaderMenu extends MenuBaseClass<HeaderMenu> {
     hideColumn(column: Column): void;
     /** Hide the Header Menu */
     hideMenu(): void;
-    showMenu(e: MouseEvent, columnDef: Column, menu: HeaderMenuItems): void;
+    repositionSubMenu(e: DOMMouseOrTouchEvent<HTMLElement>, item: HeaderMenuCommandItem, level: number, columnDef: Column): void;
+    repositionMenu(e: DOMMouseOrTouchEvent<HTMLElement>, menuElm: HTMLDivElement): void;
     /** Translate the Header Menu titles, we need to loop through all column definition to re-translate them */
     translateHeaderMenu(): void;
     /**
@@ -55,8 +57,9 @@ export declare class SlickHeaderMenu extends MenuBaseClass<HeaderMenu> {
         node: HTMLElement;
     }): void;
     /** Mouse down handler when clicking anywhere in the DOM body */
-    protected handleBodyMouseDown(e: DOMEvent<HTMLDivElement>): void;
-    protected handleMenuItemCommandClick(event: DOMEvent<HTMLDivElement>, _type: MenuType, item: ExtractMenuType<ExtendableItemTypes, MenuType>, columnDef?: Column): boolean | void;
+    protected handleBodyMouseDown(e: DOMEvent<HTMLElement>): void;
+    protected handleMenuItemCommandClick(event: DOMMouseOrTouchEvent<HTMLDivElement>, _type: MenuType, item: ExtractMenuType<ExtendableItemTypes, MenuType>, level?: number, columnDef?: Column): boolean | void;
+    protected handleMenuItemMouseOver(e: DOMMouseOrTouchEvent<HTMLElement>, _type: MenuType, item: ExtractMenuType<ExtendableItemTypes, MenuType>, level?: number, columnDef?: Column): void;
     /**
      * Create Header Menu with Custom Commands if user has enabled Header Menu
      * @param gridOptions
@@ -70,8 +73,9 @@ export declare class SlickHeaderMenu extends MenuBaseClass<HeaderMenu> {
     protected clearColumnSort(event: Event, args: MenuCommandItemCallbackArgs): void;
     /** Execute the Header Menu Commands that was triggered by the onCommand subscribe */
     protected executeHeaderMenuInternalCommands(event: Event, args: MenuCommandItemCallbackArgs): void;
-    protected populateHeaderMenuCommandList(e: MouseEvent, menu: HeaderMenuItems, args: HeaderMenuCommandItemCallbackArgs): void;
-    protected repositionMenu(e: MouseEvent): void;
+    protected createParentMenu(e: DOMMouseOrTouchEvent<HTMLDivElement>, columnDef: Column, menu: HeaderMenuItems): void;
+    /** Create the menu or sub-menu(s) but without the column picker which is a separate single process */
+    protected createCommandMenu(commandItems: Array<HeaderMenuCommandItem | 'divider'>, columnDef: Column, level?: number, item?: HeaderMenuCommandItem | 'divider'): HTMLDivElement;
     /**
      * Reset all the internal Menu options which have text to translate
      * @param header menu object

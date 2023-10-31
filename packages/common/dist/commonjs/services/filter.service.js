@@ -87,7 +87,9 @@ class FilterService {
         if (Array.isArray(this._filtersMetadata)) {
             let filter = this._filtersMetadata.pop();
             while (filter) {
-                filter === null || filter === void 0 ? void 0 : filter.destroy();
+                if (typeof (filter === null || filter === void 0 ? void 0 : filter.destroy) === 'function') {
+                    filter.destroy();
+                }
                 filter = this._filtersMetadata.pop();
             }
         }
@@ -1057,9 +1059,9 @@ class FilterService {
         const columnDefinitions = this._grid.getColumns();
         // loop through column definition to hide/show header menu commands
         columnDefinitions.forEach((col) => {
-            var _a;
+            var _a, _b;
             if ((_a = col === null || col === void 0 ? void 0 : col.header) === null || _a === void 0 ? void 0 : _a.menu) {
-                col.header.menu.items.forEach(menuItem => {
+                (_b = (col.header.menu.commandItems || col.header.menu.items)) === null || _b === void 0 ? void 0 : _b.forEach(menuItem => {
                     if (menuItem && typeof menuItem !== 'string') {
                         const menuCommand = menuItem.command;
                         if (menuCommand === 'clear-filter') {

@@ -94,6 +94,10 @@ export interface GridMenuOption {
     showButton?: boolean;
     /** Defaults to True, should we show bullets when icons are missing? */
     showBulletWhenIconMissing?: boolean;
+    /** CSS class that can be added on the right side of a sub-item parent (typically a chevron-right icon) */
+    subItemChevronClass?: string;
+    /** Defaults to "mouseover", what event type shoud we use to open sub-menu(s), 2 options are available: "mouseover" or "click" */
+    subMenuOpenByEvent?: 'mouseover' | 'click';
     /** Defaults to "Synchronous resize" which is 1 of the last 2 checkbox title shown at the end of the picker list */
     syncResizeTitle?: string;
     /** Same as "syncResizeTitle", except that it's a translation key which can be used on page load and/or when switching locale */
@@ -105,7 +109,7 @@ export interface GridMenuOption {
     width?: number | string;
     /** Callback method to override the column name output used by the ColumnPicker/GridMenu. */
     headerColumnValueExtractor?: (column: Column, gridOptions?: GridOption) => string;
-    /** Callback method that user can override the default behavior of enabling/disabling an item from the list. */
+    /** Callback method that user can override to make the menu usable or not (the menu will not be showm when not considered usable). */
     menuUsabilityOverride?: (args: MenuCallbackArgs) => boolean;
 }
 //# sourceMappingURL=gridMenuOption.interface.d.ts.map

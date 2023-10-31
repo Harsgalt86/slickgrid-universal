@@ -1,9 +1,8 @@
 import type { BasePubSubService, EventSubscription } from '@slickgrid-universal/event-pub-sub';
-import type { BackendServiceApi, CurrentPagination, Pagination, PaginationCursorChangedArgs, ServicePagination, SlickDataView, SlickGrid } from '../interfaces/index';
+import type { BackendServiceApi, CurrentPagination, CursorPageInfo, Pagination, PaginationCursorChangedArgs, ServicePagination, SlickDataView, SlickGrid } from '../interfaces/index';
 import type { BackendUtilityService } from './backendUtility.service';
 import type { SharedService } from './shared.service';
 import type { RxJsFacade } from './rxjsFacade';
-import { PageInfo } from '../interfaces/pageInfo.interface';
 export declare class PaginationService {
     protected readonly pubSubService: BasePubSubService;
     protected readonly sharedService: SharedService;
@@ -23,6 +22,7 @@ export declare class PaginationService {
     protected _paginationOptions: Pagination;
     protected _previousPagination?: Pagination;
     protected _subscriptions: EventSubscription[];
+    protected _cursorPageInfo?: CursorPageInfo;
     /** SlickGrid Grid object */
     grid: SlickGrid;
     /** Constructor */
@@ -39,7 +39,24 @@ export declare class PaginationService {
     get pageNumber(): number;
     get totalItems(): number;
     set totalItems(totalItems: number);
-    get cursorBased(): boolean;
+    /**
+     * https://dev.to/jackmarchant/offset-and-cursor-pagination-explained-b89
+     * Cursor based pagination does not allow navigation to a page in the middle of a set of pages (eg: LinkedList vs Vector).
+     *  Further, Pagination with page numbers only makes sense in non-relay style pagination
+     *  Relay style pagination is better suited to infinite scrolling
+     *
+     * eg
+     *  relay pagination - Infinte scrolling appending data
+     *    page1: {startCursor: A, endCursor: B }
+     *    page2: {startCursor: A, endCursor: C }
+     *    page3: {startCursor: A, endCursor: D }
+     *
+     *  non-relay pagination - Getting page chunks
+     *    page1: {startCursor: A, endCursor: B }
+     *    page2: {startCursor: B, endCursor: C }
+     *    page3: {startCursor: C, endCursor: D }
+     */
+    get isCursorBased(): boolean;
     addRxJsResource(rxjs: RxJsFacade): void;
     init(grid: SlickGrid, paginationOptions: Pagination, backendServiceApi?: BackendServiceApi): void;
     dispose(): void;
@@ -73,8 +90,7 @@ export declare class PaginationService {
      * It will reapply the previous filter state in the UI.
      */
     resetToPreviousPagination(): void;
-    private _pageInfo?;
-    updatePageInfo(pageInfo: PageInfo): void;
+    setCursorPageInfo(pageInfo: CursorPageInfo): void;
     updateTotalItems(totalItems: number, triggerChangedEvent?: boolean): void;
     /**
      * When item is added or removed, we will refresh the numbers on the pagination however we won't trigger a backend change

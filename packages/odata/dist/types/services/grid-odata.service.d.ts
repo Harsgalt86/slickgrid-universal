@@ -1,4 +1,4 @@
-import type { BackendService, Column, ColumnFilters, ColumnSort, CurrentFilter, CurrentPagination, CurrentSorter, FilterChangedArgs, GridOption, MultiColumnSort, Pagination, PaginationChangedArgs, OperatorString, SearchTerm, SharedService, SingleColumnSort, SlickGrid, PaginationCursorChangedArgs } from '@slickgrid-universal/common';
+import type { BackendService, Column, ColumnFilters, ColumnSort, CurrentFilter, CurrentPagination, CurrentSorter, FilterChangedArgs, GridOption, MultiColumnSort, Pagination, PaginationChangedArgs, OperatorString, SearchTerm, SharedService, SingleColumnSort, SlickGrid } from '@slickgrid-universal/common';
 import { FieldType, OperatorType } from '@slickgrid-universal/common';
 import { OdataQueryBuilderService } from './odataQueryBuilder.service';
 import { OdataOption } from '../interfaces/index';
@@ -41,7 +41,7 @@ export declare class GridOdataService implements BackendService {
     resetPaginationOptions(): void;
     saveColumnFilter(fieldName: string, value: string, terms?: SearchTerm[]): void;
     processOnFilterChanged(_event: Event | undefined, args: FilterChangedArgs): string;
-    processOnPaginationChanged(_event: Event | undefined, args: PaginationChangedArgs | PaginationCursorChangedArgs): string;
+    processOnPaginationChanged(_event: Event | undefined, args: PaginationChangedArgs): string;
     processOnSortChanged(_event: Event | undefined, args: SingleColumnSort | MultiColumnSort): string;
     /**
      * loop through all columns to inspect filters & update backend service filters

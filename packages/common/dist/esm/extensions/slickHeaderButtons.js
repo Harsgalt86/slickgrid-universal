@@ -69,6 +69,10 @@ export class SlickHeaderButtons extends MenuBaseClass {
             while (i--) {
                 const buttonItem = column.header.buttons[i];
                 const itemElm = this.populateSingleCommandOrOptionItem('command', this.addonOptions, null, buttonItem, args, this.handleButtonClick.bind(this));
+                // Header Button can have an optional handler
+                if (itemElm && buttonItem.handler && !buttonItem.disabled) {
+                    this._bindEventService.bind(itemElm, 'click', ((e) => buttonItem.handler.call(this, e)));
+                }
                 if (itemElm) {
                     this._buttonElms.push(itemElm);
                     args.node.appendChild(itemElm);
@@ -94,7 +98,7 @@ export class SlickHeaderButtons extends MenuBaseClass {
             }
         }
     }
-    handleButtonClick(event, _type, button, columnDef) {
+    handleButtonClick(event, _type, button, level, columnDef) {
         var _a;
         if (button.command && !button.disabled) {
             const command = button.command || '';

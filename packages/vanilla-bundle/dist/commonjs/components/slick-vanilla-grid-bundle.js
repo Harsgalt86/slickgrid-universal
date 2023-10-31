@@ -272,7 +272,7 @@ class SlickVanillaGridBundle {
         (0, common_1.unsubscribeAll)(this.subscriptions);
         (_u = this._eventPubSubService) === null || _u === void 0 ? void 0 : _u.unsubscribeAll();
         (_v = this.dataView) === null || _v === void 0 ? void 0 : _v.setItems([]);
-        if ((_w = this.dataView) === null || _w === void 0 ? void 0 : _w.destroy) {
+        if (typeof ((_w = this.dataView) === null || _w === void 0 ? void 0 : _w.destroy) === 'function') {
             (_x = this.dataView) === null || _x === void 0 ? void 0 : _x.destroy();
         }
         (_y = this.slickGrid) === null || _y === void 0 ? void 0 : _y.destroy(true);
@@ -1209,7 +1209,9 @@ class SlickVanillaGridBundle {
             // get current Editor, remove it from the DOm then re-enable it and re-render it with the new collection.
             const currentEditor = this.slickGrid.getCellEditor();
             if ((currentEditor === null || currentEditor === void 0 ? void 0 : currentEditor.disable) && (currentEditor === null || currentEditor === void 0 ? void 0 : currentEditor.renderDomElement)) {
-                currentEditor.destroy();
+                if (typeof currentEditor.destroy === 'function') {
+                    currentEditor.destroy();
+                }
                 currentEditor.disable(false);
                 currentEditor.renderDomElement(newCollection);
             }

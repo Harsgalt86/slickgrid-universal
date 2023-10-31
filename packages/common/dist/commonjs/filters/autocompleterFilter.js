@@ -167,7 +167,9 @@ class AutocompleterFilter {
      */
     destroy() {
         var _a, _b, _c;
-        (_a = this._instance) === null || _a === void 0 ? void 0 : _a.destroy();
+        if (typeof ((_a = this._instance) === null || _a === void 0 ? void 0 : _a.destroy) === 'function') {
+            this._instance.destroy();
+        }
         if (this._filterElm) {
             // this._filterElm.autocomplete('destroy');
             // this._filterElm.off('input').remove();

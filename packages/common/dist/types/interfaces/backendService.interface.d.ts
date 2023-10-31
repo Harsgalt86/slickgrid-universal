@@ -26,7 +26,7 @@ export interface BackendService {
     resetPaginationOptions: () => void;
     /** Update the Filters options with a set of new options */
     updateFilters?: (columnFilters: ColumnFilters | CurrentFilter[], isUpdatedByPresetOrDynamically: boolean) => void;
-    /** Update the Pagination component with it's new page number and size. If using cursor based pagination also supply a PageInfo object */
+    /** Update the Pagination component with it's new page number and size. If using cursor based pagination, a CursorPageInfo object needs to be supplied */
     updatePagination?: (newPage: number, pageSize: number, cursorArgs?: PaginationCursorChangedArgs) => void;
     /** Update the Sorters options with a set of new options */
     updateSorters?: (sortColumns?: Array<SingleColumnSort>, presetSorters?: CurrentSorter[]) => void;
@@ -35,7 +35,7 @@ export interface BackendService {
     /** Execute when any of the filters changed */
     processOnFilterChanged: (event: Event | KeyboardEvent | undefined, args: FilterChangedArgs) => string;
     /** Execute when the pagination changed */
-    processOnPaginationChanged: (event: Event | undefined, args: PaginationChangedArgs | PaginationCursorChangedArgs) => string;
+    processOnPaginationChanged: (event: Event | undefined, args: PaginationChangedArgs | (PaginationCursorChangedArgs & PaginationChangedArgs)) => string;
     /** Execute when any of the sorters changed */
     processOnSortChanged: (event: Event | undefined, args: SingleColumnSort | MultiColumnSort) => string;
 }

@@ -153,7 +153,9 @@ export class SelectFilter {
     /** destroy the filter */
     destroy() {
         var _a, _b;
-        (_a = this._msInstance) === null || _a === void 0 ? void 0 : _a.destroy();
+        if (typeof ((_a = this._msInstance) === null || _a === void 0 ? void 0 : _a.destroy) === 'function') {
+            this._msInstance.destroy();
+        }
         (_b = this.filterElm) === null || _b === void 0 ? void 0 : _b.remove();
         // unsubscribe all the possible Observables if RxJS was used
         unsubscribeAll(this.subscriptions);

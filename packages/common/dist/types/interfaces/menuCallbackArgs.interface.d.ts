@@ -11,5 +11,7 @@ export interface MenuCallbackArgs<T = any> {
     column: Column<T>;
     /** Cell Data Context(data object) */
     dataContext?: T;
+    /** Menu/sub-menu level, parent menu is always defined as 0 and sub-menus are at level 1 or higher */
+    level?: number;
 }
 //# sourceMappingURL=menuCallbackArgs.interface.d.ts.map

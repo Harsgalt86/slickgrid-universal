@@ -316,7 +316,9 @@ export class SelectEditor {
             this.save(true);
         }
         this._isDisposingOrCallingSave = true;
-        (_a = this._msInstance) === null || _a === void 0 ? void 0 : _a.destroy();
+        if (typeof ((_a = this._msInstance) === null || _a === void 0 ? void 0 : _a.destroy) === 'function') {
+            this._msInstance.destroy();
+        }
         (_b = this.editorElm) === null || _b === void 0 ? void 0 : _b.remove();
         this._msInstance = undefined;
     }

@@ -136,7 +136,7 @@ class DateEditor {
         var _a, _b, _c, _d, _e, _f, _g, _h;
         this.hide();
         this._bindEventService.unbindAll();
-        if ((_a = this.flatInstance) === null || _a === void 0 ? void 0 : _a.destroy) {
+        if (typeof ((_a = this.flatInstance) === null || _a === void 0 ? void 0 : _a.destroy) === 'function') {
             this.flatInstance.destroy();
             if ((_b = this.flatInstance) === null || _b === void 0 ? void 0 : _b.element) {
                 setTimeout(() => (0, domUtilities_1.destroyObjectDomElementProps)(this.flatInstance));

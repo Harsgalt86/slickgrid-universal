@@ -36,11 +36,11 @@ export declare class ExtensionUtility {
     /** Translate the array of items from an input key and assign them to their output key */
     translateItems<T = any>(items: T[], inputKey: string, outputKey: string): void;
     /**
-     * Loop through all Menu Command Items and use `titleKey` property to translate (or use Locale) appropriate `title` property
+     * Loop through all Menu Command Items and use `titleKey`, `subMenuTitleKey` properties to translate (or use Locale) appropriate `title` property
      * @param {Array<MenuCommandItem | String>} items - Menu Command Items array
      * @param {Object} gridOptions - Grid Options
      */
-    translateMenuItemsFromTitleKey(items: Array<MenuCommandItem | MenuOptionItem | GridMenuItem | 'divider'>): void;
+    translateMenuItemsFromTitleKey(items: Array<MenuCommandItem | MenuOptionItem | GridMenuItem | 'divider'>, subMenuItemsKey?: string): void;
     /**
      * When "enabledTranslate" is set to True, we will try to translate if the Translate Service exist or use the Locales when not
      * @param {String} translationKey

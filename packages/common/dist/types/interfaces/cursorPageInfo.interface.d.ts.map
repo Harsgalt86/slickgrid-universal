@@ -1,0 +1,1 @@
+{"version":3,"file":"cursorPageInfo.interface.d.ts","sourceRoot":"","sources":["../../../src/interfaces/cursorPageInfo.interface.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,cAAc;IAC7B,2DAA2D;IAC3D,WAAW,EAAE,OAAO,CAAC;IAErB,+DAA+D;IAC/D,eAAe,EAAE,OAAO,CAAC;IAEzB,+BAA+B;IAC/B,SAAS,EAAE,MAAM,CAAC;IAElB,gCAAgC;IAChC,WAAW,EAAE,MAAM,CAAC;CACrB"}

@@ -27,6 +27,8 @@ export interface GridMenuEventBaseCallbackArgs {
 export interface GridMenuEventWithElementCallbackArgs extends GridMenuEventBaseCallbackArgs {
     /** html DOM element of the menu */
     menu: HTMLElement;
+    /** menu/sub-menu level */
+    level?: number;
 }
 export interface onGridMenuColumnsChangedCallbackArgs extends GridMenuEventBaseCallbackArgs {
     /** column definition id */

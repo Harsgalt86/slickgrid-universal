@@ -52,6 +52,7 @@ __exportStar(require("./currentPagination.interface"), exports);
 __exportStar(require("./currentPinning.interface"), exports);
 __exportStar(require("./currentRowSelection.interface"), exports);
 __exportStar(require("./currentSorter.interface"), exports);
+__exportStar(require("./cursorPageInfo.interface"), exports);
 __exportStar(require("./customFooterOption.interface"), exports);
 __exportStar(require("./customTooltipOption.interface"), exports);
 __exportStar(require("./dataViewOption.interface"), exports);

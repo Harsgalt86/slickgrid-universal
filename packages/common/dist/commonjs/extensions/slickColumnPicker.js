@@ -85,9 +85,9 @@ class SlickColumnPicker {
         extensionCommonUtils_1.addColumnTitleElementWhenDefined.call(this, this._menuElm);
         extensionCommonUtils_1.addCloseButtomElement.call(this, this._menuElm);
         this._listElm = (0, domUtilities_1.createDomElement)('div', { className: 'slick-column-picker-list', role: 'menu' });
-        this._bindEventService.bind(this._menuElm, 'click', extensionCommonUtils_1.handleColumnPickerItemClick.bind(this));
+        this._bindEventService.bind(this._menuElm, 'click', extensionCommonUtils_1.handleColumnPickerItemClick.bind(this), undefined, 'parent-menu');
         // Hide the menu on outside click.
-        this._bindEventService.bind(document.body, 'mousedown', this.handleBodyMouseDown.bind(this));
+        this._bindEventService.bind(document.body, 'mousedown', this.handleBodyMouseDown.bind(this), { capture: true });
         // destroy the picker if user leaves the page
         this._bindEventService.bind(document.body, 'beforeunload', this.dispose.bind(this));
         document.body.appendChild(this._menuElm);
@@ -137,7 +137,7 @@ class SlickColumnPicker {
     // ------------------
     /** Mouse down handler when clicking anywhere in the DOM body */
     handleBodyMouseDown(e) {
-        if ((this._menuElm !== e.target && !this._menuElm.contains(e.target)) || e.target.className === 'close') {
+        if ((this._menuElm !== e.target && !this._menuElm.contains(e.target)) || (e.target.className === 'close' && e.target.closest('.slick-column-picker'))) {
             this._menuElm.setAttribute('aria-expanded', 'false');
             this._menuElm.style.display = 'none';
         }

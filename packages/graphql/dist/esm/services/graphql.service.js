@@ -14,9 +14,6 @@ export class GraphqlService {
             first: DEFAULT_ITEMS_PER_PAGE,
             offset: 0
         };
-        this.defaultCursorPaginationOptions = {
-            first: DEFAULT_ITEMS_PER_PAGE,
-        };
     }
     /** Getter for the Column Definitions */
     get columnDefinitions() {
@@ -43,7 +40,7 @@ export class GraphqlService {
      * @param serviceOptions GraphqlServiceOption
      */
     buildQuery() {
-        var _a, _b;
+        var _a, _b, _c, _d, _e, _f, _g;
         if (!this.options || !this.options.datasetName || !Array.isArray(this._columnDefinitions)) {
             throw new Error('GraphQL Service requires the "datasetName" property to properly build the GraphQL query');
         }
@@ -103,7 +100,7 @@ export class GraphqlService {
             }
             else {
                 const paginationOptions = (_a = this.options) === null || _a === void 0 ? void 0 : _a.paginationOptions;
-                datasetFilters.first = ((this.options.paginationOptions && this.options.paginationOptions.first) ? this.options.paginationOptions.first : ((this.pagination && this.pagination.pageSize) ? this.pagination.pageSize : null)) || this.defaultPaginationOptions.first;
+                datasetFilters.first = (_f = (_d = (_c = (_b = this.options) === null || _b === void 0 ? void 0 : _b.paginationOptions) === null || _c === void 0 ? void 0 : _c.first) !== null && _d !== void 0 ? _d : (_e = this.pagination) === null || _e === void 0 ? void 0 : _e.pageSize) !== null && _f !== void 0 ? _f : this.defaultPaginationOptions.first;
                 datasetFilters.offset = (paginationOptions === null || paginationOptions === void 0 ? void 0 : paginationOptions.hasOwnProperty('offset')) ? +paginationOptions['offset'] : 0;
             }
         }
@@ -117,7 +114,7 @@ export class GraphqlService {
         }
         if (this.options.addLocaleIntoQuery) {
             // first: 20, ... locale: "en-CA"
-            datasetFilters.locale = ((_b = this._gridOptions.translater) === null || _b === void 0 ? void 0 : _b.getCurrentLanguage()) || this._gridOptions.locale || 'en';
+            datasetFilters.locale = ((_g = this._gridOptions.translater) === null || _g === void 0 ? void 0 : _g.getCurrentLanguage()) || this._gridOptions.locale || 'en';
         }
         if (this.options.extraQueryArguments) {
             // first: 20, ... userId: 123
@@ -423,10 +420,10 @@ export class GraphqlService {
         if ((_a = this.options) === null || _a === void 0 ? void 0 : _a.isWithCursor) {
             // use cursor based pagination
             // when using cursor pagination, expect to be given a PaginationCursorChangedArgs as arguments,
-            // but still handle the case where it's not (can happen when initial configuration not pre-configured (automatically corrects itself next updatePageInfo() call))
+            // but still handle the case where it's not (can happen when initial configuration not pre-configured (automatically corrects itself next setCursorPageInfo() call))
             if (cursorArgs && cursorArgs instanceof Object) {
                 // remove pageSize and newPage from cursorArgs, otherwise they get put on the query input string
-                // eslint-disable-next-line
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-shadow
                 const { pageSize, newPage, ...cursorPaginationOptions } = cursorArgs;
                 paginationOptions = cursorPaginationOptions;
             }
@@ -443,129 +440,6 @@ export class GraphqlService {
         }
         this.updateOptions({ paginationOptions });
     }
-    /**
-     * Update the pagination component with it's new page number and size
-     * @param newPage
-     * @param pageSize
-     */
-    // updatePagination(newPage: number, pageSize: number): void;
-    // updatePagination(cursorArgs: PaginationCursorChangedArgs): void;
-    // updatePagination(newPageOrCursorArgs: number | PaginationCursorChangedArgs, pageSize?: number) {
-    //   let paginationOptions: GraphqlPaginationOption | GraphqlCursorPaginationOption = {};
-    //   if (this.options?.isWithCursor) {
-    //     // use cursor based pagination
-    //     const cursorArgs = newPageOrCursorArgs;
-    //     if (cursorArgs instanceof Object) {
-    //       // when using cursor pagination, expect to be given a PaginationCursorChangedArgs as arguments
-    //       paginationOptions = newPageOrCursorArgs as PaginationCursorChangedArgs;
-    //     } else {
-    //       // should not happen unless there is an error in initial configuration
-    //       paginationOptions = this.defaultCursorPaginationOptions;
-    //     }
-    //   } else {
-    //     // use offset based pagination
-    //     const newPage = newPageOrCursorArgs as number;
-    //     this._currentPagination = {
-    //       pageNumber: newPage,
-    //       pageSize: pageSize!
-    //     };
-    //     paginationOptions = {
-    //       first: pageSize,
-    //       offset: (newPage > 1) ? ((newPage - 1) * pageSize!) : 0 // recalculate offset but make sure the result is always over 0
-    //     };
-    //   }
-    //   // if (typeof newPageOrCursorArgs === 'number' || !this.options?.isWithCursor) {
-    //   //   const newPage = newPageOrCursorArgs as number;
-    //   //   this._currentPagination = {
-    //   //     pageNumber: newPage,
-    //   //     pageSize: pageSize!
-    //   //   };
-    //   //   paginationOptions = {
-    //   //     first: pageSize,
-    //   //     offset: (newPage > 1) ? ((newPage - 1) * pageSize!) : 0 // recalculate offset but make sure the result is always over 0
-    //   //   };
-    //   // } else {
-    //   //   // when using cursor pagination, expect to be given a PaginationCursorChangedArgs as arguments
-    //   //   paginationOptions = newPageOrCursorArgs as PaginationCursorChangedArgs;
-    //   // }
-    //   // else {
-    //   //   const newPage = newPageOrCursorArgs as number;
-    //   //   this._currentPagination = {
-    //   //     pageNumber: newPage,
-    //   //     pageSize: pageSize!
-    //   //   };
-    //   //   paginationOptions = {
-    //   //     first: pageSize,
-    //   //     offset: (newPage > 1) ? ((newPage - 1) * pageSize!) : 0 // recalculate offset but make sure the result is always over 0
-    //   //   };
-    //   // }
-    //   // if (this.options && this.options.isWithCursor) {
-    //   // https://dev.to/jackmarchant/offset-and-cursor-pagination-explained-b89
-    //   // Cursor based pagination does not allow navigation to the middle of the page.
-    //   //   Pagination by page numbers only makes sense in non-relay style pagination
-    //   //   Relay style pagination is better suited to infinite scrolling
-    //   //   relay pagination - infinte scrolling appending data
-    //   //     page1: {startCursor: A, endCursor: B }
-    //   //     page2: {startCursor: A, endCursor: C }
-    //   //     page3: {startCursor: A, endCursor: D }
-    //   //   non-relay pagination - Getting page chunks
-    //   //     page1: {startCursor: A, endCursor: B }
-    //   //     page2: {startCursor: B, endCursor: C }
-    //   //     page3: {startCursor: C, endCursor: D }
-    //   // if (cursorArgs) {
-    //   //   paginationOptions = cursorArgs;
-    //   // } else {
-    //   //   paginationOptions = {
-    //   //     first: 0
-    //   //   };
-    //   // }
-    //   // can only navigate backwards or forwards if an existing PageInfo is set
-    //   // if (!this.pagination || !this.pageInfo || newPage === 1) {
-    //   //   // get the first page
-    //   //   paginationOptions = {
-    //   //     first: pageSize,
-    //   //   };
-    //   // }
-    //   // else if (newPage === Math.ceil(this.pageInfo.totalCount / pageSize)) {
-    //   //   // get the last page
-    //   //   paginationOptions = {
-    //   //     last: pageSize,
-    //   //   };
-    //   // }
-    //   // else if (this.pageInfo && previousPage) {
-    //   //   if (newPage === previousPage) {
-    //   //     // stay on same "page", get data from the current cursor position (pageSize may have changed)
-    //   //     paginationOptions = {
-    //   //       first: pageSize,
-    //   //       after: this.pageInfo.startCursor
-    //   //     };
-    //   //   } else if(newPage > previousPage) {
-    //   //     // navigating forwards - // // https://relay.dev/graphql/connections.htm#sec-Forward-pagination-arguments
-    //   //     paginationOptions = {
-    //   //       first: pageSize,
-    //   //       after: this.pageInfo.endCursor
-    //   //     };
-    //   //   } else if(newPage < previousPage) {
-    //   //     // navigating backwards - // https://relay.dev/graphql/connections.htm#sec-Backward-pagination-arguments
-    //   //     paginationOptions = {
-    //   //       last: pageSize,
-    //   //       before: this.pageInfo.endCursor
-    //   //     };
-    //   //   }
-    //   // }
-    //   // else {
-    //   //   paginationOptions = {
-    //   //     first: pageSize,
-    //   //   };
-    //   // }
-    //   // } else {
-    //   //   paginationOptions = {
-    //   //     first: pageSize,
-    //   //     offset: (newPage > 1) ? ((newPage - 1) * pageSize) : 0 // recalculate offset but make sure the result is always over 0
-    //   //   };
-    //   // }
-    //   this.updateOptions({ paginationOptions });
-    // }
     /**
      * loop through all columns to inspect sorters & update backend service sortingOptions
      * @param columnFilters

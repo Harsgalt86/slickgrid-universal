@@ -34,6 +34,7 @@ export class SlickContextMenu extends MenuFromCellBaseClass {
             hideMenuOnScroll: false,
             optionShownOverColumnIds: [],
             commandShownOverColumnIds: [],
+            subMenuOpenByEvent: 'mouseover',
         };
         this.pluginName = 'ContextMenu';
         this._camelPluginName = 'contextMenu';
@@ -51,7 +52,7 @@ export class SlickContextMenu extends MenuFromCellBaseClass {
         this.sharedService.gridOptions.contextMenu = this._addonOptions;
         // sort all menu items by their position order when defined
         this.sortMenuItems();
-        this._eventHandler.subscribe(this.grid.onContextMenu, this.handleClick.bind(this));
+        this._eventHandler.subscribe(this.grid.onContextMenu, this.handleOnContextMenu.bind(this));
         if (this._addonOptions.hideMenuOnScroll) {
             this._eventHandler.subscribe(this.grid.onScroll, this.closeMenu.bind(this));
         }
@@ -73,14 +74,15 @@ export class SlickContextMenu extends MenuFromCellBaseClass {
                 contextMenu.optionTitle = this.extensionUtility.translateWhenEnabledAndServiceExist(contextMenu.optionTitleKey, 'TEXT_COMMANDS') || contextMenu.optionTitle;
             }
             // translate both command/option items (whichever is provided)
-            this.extensionUtility.translateMenuItemsFromTitleKey(columnContextMenuCommandItems);
-            this.extensionUtility.translateMenuItemsFromTitleKey(columnContextMenuOptionItems);
+            this.extensionUtility.translateMenuItemsFromTitleKey(columnContextMenuCommandItems, 'commandItems');
+            this.extensionUtility.translateMenuItemsFromTitleKey(columnContextMenuOptionItems, 'optionItems');
         }
     }
     // --
     // event handlers
     // ------------------
-    handleClick(event, args) {
+    handleOnContextMenu(event, args) {
+        this.disposeAllMenus(); // make there's only 1 parent menu opened at a time
         const cell = this.grid.getCellFromEvent(event);
         if (cell) {
             const dataContext = this.grid.getDataItem(cell.row);
@@ -96,18 +98,18 @@ export class SlickContextMenu extends MenuFromCellBaseClass {
                 return;
             }
             // create the DOM element
-            this._menuElm = this.createMenu(event);
+            this._menuElm = this.createParentMenu(event);
             if (this._menuElm) {
                 event.preventDefault();
             }
             // reposition the menu to where the user clicked
             if (this._menuElm) {
-                this.repositionMenu(event);
+                this.repositionMenu(event, this._menuElm);
                 this._menuElm.setAttribute('aria-expanded', 'true');
                 this._menuElm.style.display = 'block';
             }
             // Hide the menu on outside click.
-            this._bindEventService.bind(document.body, 'mousedown', this.handleBodyMouseDown.bind(this));
+            this._bindEventService.bind(document.body, 'mousedown', this.handleBodyMouseDown.bind(this), { capture: true });
         }
     }
     // --

@@ -30,15 +30,24 @@ export declare class MenuBaseClass<M extends CellMenu | ContextMenu | GridMenu |
     /** Getter for the grid uid */
     get gridUid(): string;
     get gridUidSelector(): string;
+    get menuCssClass(): string;
     get menuElement(): HTMLDivElement | null;
     /** Dispose (destroy) of the plugin */
     dispose(): void;
+    /** Remove/dispose all parent menus and any sub-menu(s) */
+    disposeAllMenus(): void;
+    /**
+     * Remove/dispose all previously opened sub-menu(s),
+     * it will first remove all sub-menu listeners then remove sub-menus from the DOM
+     */
+    disposeSubMenus(): void;
     setOptions(newOptions: M): void;
+    protected addSubMenuTitleWhenExists(item: ExtractMenuType<ExtendableItemTypes, MenuType>, commandOrOptionMenu: HTMLDivElement): void;
     /** Construct the Command/Options Items section. */
-    protected populateCommandOrOptionItems(itemType: MenuType, menuOptions: M, commandOrOptionMenuElm: HTMLElement, commandOrOptionItems: Array<ExtractMenuType<ExtendableItemTypes, MenuType>>, args: unknown, itemClickCallback: (event: DOMMouseOrTouchEvent<HTMLDivElement>, type: MenuType, item: ExtractMenuType<ExtendableItemTypes, MenuType>, columnDef?: Column) => void): void;
+    protected populateCommandOrOptionItems(itemType: MenuType, menuOptions: M, commandOrOptionMenuElm: HTMLElement, commandOrOptionItems: Array<ExtractMenuType<ExtendableItemTypes, MenuType>>, args: unknown, itemClickCallback: (e: DOMMouseOrTouchEvent<HTMLDivElement>, type: MenuType, item: ExtractMenuType<ExtendableItemTypes, MenuType>, level: number, columnDef?: Column) => void, itemMouseoverCallback?: (e: DOMMouseOrTouchEvent<HTMLElement>, type: MenuType, item: ExtractMenuType<ExtendableItemTypes, MenuType>, level: number, columnDef?: Column) => void): void;
     /** Add the Command/Options Title when necessary. */
-    protected populateCommandOrOptionTitle(itemType: MenuType, menuOptions: M, commandOrOptionMenuElm: HTMLElement): void;
+    protected populateCommandOrOptionTitle(itemType: MenuType, menuOptions: M, commandOrOptionMenuElm: HTMLElement, level: number): void;
     /** Construct the Command/Options Items section. */
-    protected populateSingleCommandOrOptionItem(itemType: MenuType, menuOptions: M, commandOrOptionMenuElm: HTMLElement | null, item: ExtractMenuType<ExtendableItemTypes, MenuType>, args: any, itemClickCallback: (event: DOMMouseOrTouchEvent<HTMLDivElement>, type: MenuType, item: ExtractMenuType<ExtendableItemTypes, MenuType>, columnDef?: Column) => void): HTMLLIElement | null;
+    protected populateSingleCommandOrOptionItem(itemType: MenuType, menuOptions: M, commandOrOptionMenuElm: HTMLElement | null, item: ExtractMenuType<ExtendableItemTypes, MenuType>, args: any, itemClickCallback: (e: DOMMouseOrTouchEvent<HTMLDivElement>, type: MenuType, item: ExtractMenuType<ExtendableItemTypes, MenuType>, level: number, columnDef?: Column) => void, itemMouseoverCallback?: (e: DOMMouseOrTouchEvent<HTMLElement>, type: MenuType, item: ExtractMenuType<ExtendableItemTypes, MenuType>, level: number, columnDef?: Column) => void): HTMLLIElement | null;
 }
 //# sourceMappingURL=menuBaseClass.d.ts.map

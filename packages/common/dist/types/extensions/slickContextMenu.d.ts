@@ -33,7 +33,7 @@ export declare class SlickContextMenu extends MenuFromCellBaseClass<ContextMenu>
     init(contextMenuOptions?: ContextMenu): void;
     /** Translate the Context Menu titles, we need to loop through all column definition to re-translate all list titles & all commands/options */
     translateContextMenu(): void;
-    protected handleClick(event: DOMMouseOrTouchEvent<HTMLDivElement>, args: MenuCommandItemCallbackArgs): void;
+    protected handleOnContextMenu(event: DOMMouseOrTouchEvent<HTMLDivElement>, args: MenuCommandItemCallbackArgs): void;
     /** Create Context Menu with Custom Commands (copy cell value, export) */
     protected addMenuCustomCommands(originalCommandItems: Array<MenuCommandItem | 'divider'>): ("divider" | MenuCommandItem<MenuCommandItemCallbackArgs, MenuCallbackArgs<any>>)[];
     /**

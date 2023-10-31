@@ -1,4 +1,4 @@
-export type PageInfo = {
+export interface CursorPageInfo {
     /** Do we have a next page from current cursor position? */
     hasNextPage: boolean;
     /** Do we have a previous page from current cursor position? */
@@ -7,5 +7,5 @@ export type PageInfo = {
     endCursor: string;
     /** What is the first cursor? */
     startCursor: string;
-};
-//# sourceMappingURL=graphqlPageInfo.interface.d.ts.map
+}
+//# sourceMappingURL=cursorPageInfo.interface.d.ts.map

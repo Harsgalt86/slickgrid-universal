@@ -128,7 +128,9 @@ class AutocompleterEditor {
     destroy() {
         var _a, _b, _c;
         this._bindEventService.unbindAll();
-        (_a = this._instance) === null || _a === void 0 ? void 0 : _a.destroy();
+        if (typeof ((_a = this._instance) === null || _a === void 0 ? void 0 : _a.destroy) === 'function') {
+            this._instance.destroy();
+        }
         (_c = (_b = this._inputElm) === null || _b === void 0 ? void 0 : _b.remove) === null || _c === void 0 ? void 0 : _c.call(_b);
         this._elementCollection = null;
     }

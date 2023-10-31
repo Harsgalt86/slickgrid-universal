@@ -30,6 +30,7 @@ export class SlickCellMenu extends MenuFromCellBaseClass {
             autoAdjustDropOffset: 0,
             autoAlignSideOffset: 0,
             hideMenuOnScroll: true,
+            subMenuOpenByEvent: 'mouseover',
         };
         this.pluginName = 'CellMenu';
         this._camelPluginName = 'cellMenu';
@@ -66,8 +67,8 @@ export class SlickCellMenu extends MenuFromCellBaseClass {
                         columnDef.cellMenu.optionTitle = this.extensionUtility.translateWhenEnabledAndServiceExist(columnDef.cellMenu.optionTitleKey, 'TEXT_COMMANDS') || columnDef.cellMenu.optionTitle;
                     }
                     // translate both command/option items (whichever is provided)
-                    this.extensionUtility.translateMenuItemsFromTitleKey(columnCellMenuCommandItems);
-                    this.extensionUtility.translateMenuItemsFromTitleKey(columnCellMenuOptionItems);
+                    this.extensionUtility.translateMenuItemsFromTitleKey(columnCellMenuCommandItems, 'commandItems');
+                    this.extensionUtility.translateMenuItemsFromTitleKey(columnCellMenuOptionItems, 'optionItems');
                 }
             });
         }
@@ -76,6 +77,7 @@ export class SlickCellMenu extends MenuFromCellBaseClass {
     // event handlers
     // ------------------
     handleCellClick(event, args) {
+        this.disposeAllMenus(); // make there's only 1 parent menu opened at a time
         const cell = this.grid.getCellFromEvent(event);
         if (cell) {
             const dataContext = this.grid.getDataItem(cell.row);
@@ -95,15 +97,15 @@ export class SlickCellMenu extends MenuFromCellBaseClass {
                 return;
             }
             // create the DOM element
-            this._menuElm = this.createMenu(event);
+            this._menuElm = this.createParentMenu(event);
             // reposition the menu to where the user clicked
             if (this._menuElm) {
-                this.repositionMenu(event);
+                this.repositionMenu(event, this._menuElm);
                 this._menuElm.setAttribute('aria-expanded', 'true');
                 this._menuElm.style.display = 'block';
             }
             // Hide the menu on outside click.
-            this._bindEventService.bind(document.body, 'mousedown', this.handleBodyMouseDown.bind(this));
+            this._bindEventService.bind(document.body, 'mousedown', this.handleBodyMouseDown.bind(this), { capture: true });
         }
     }
     // --

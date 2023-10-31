@@ -36,6 +36,7 @@ export * from './currentPagination.interface';
 export * from './currentPinning.interface';
 export * from './currentRowSelection.interface';
 export * from './currentSorter.interface';
+export * from './cursorPageInfo.interface';
 export * from './customFooterOption.interface';
 export * from './customTooltipOption.interface';
 export * from './dataViewOption.interface';
