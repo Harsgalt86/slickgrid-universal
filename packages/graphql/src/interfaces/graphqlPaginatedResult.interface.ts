@@ -1,5 +1,4 @@
-import type { Metrics } from '@slickgrid-universal/common';
-import { PageInfo } from './graphqlPageInfo.interface';
+import type { Metrics, CursorPageInfo } from '@slickgrid-universal/common';
 
 export interface GraphqlPaginatedResult {
   data: {
@@ -19,7 +18,7 @@ export interface GraphqlPaginatedResult {
       }
 
       /** Page information of the current cursor, do we have a next page and what is the end cursor? */
-      pageInfo?: PageInfo;
+      pageInfo?: CursorPageInfo;
     }
   };
 

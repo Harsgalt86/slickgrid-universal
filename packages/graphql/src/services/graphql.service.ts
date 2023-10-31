@@ -54,9 +54,6 @@ export class GraphqlService implements BackendService {
     first: DEFAULT_ITEMS_PER_PAGE,
     offset: 0
   };
-  defaultCursorPaginationOptions: GraphqlCursorPaginationOption = {
-    first: DEFAULT_ITEMS_PER_PAGE,
-  };
 
   /** Getter for the Column Definitions */
   get columnDefinitions() {
@@ -152,7 +149,7 @@ export class GraphqlService implements BackendService {
       }
       else {
         const paginationOptions = this.options?.paginationOptions;
-        datasetFilters.first = ((this.options.paginationOptions && this.options.paginationOptions.first) ? this.options.paginationOptions.first : ((this.pagination && this.pagination.pageSize) ? this.pagination.pageSize : null)) || this.defaultPaginationOptions.first;
+        datasetFilters.first = this.options?.paginationOptions?.first ?? this.pagination?.pageSize ?? this.defaultPaginationOptions.first;
         datasetFilters.offset = paginationOptions?.hasOwnProperty('offset') ? +(paginationOptions as any)['offset'] : 0;
       }
     }
@@ -339,7 +336,7 @@ export class GraphqlService implements BackendService {
    *     }
    *   }
    */
-  processOnPaginationChanged(_event: Event | undefined, args: PaginationChangedArgs | PaginationCursorChangedArgs): string {
+  processOnPaginationChanged(_event: Event | undefined, args: PaginationChangedArgs | (PaginationCursorChangedArgs & PaginationChangedArgs)): string {
     const pageSize = +(args.pageSize || ((this.pagination) ? this.pagination.pageSize : DEFAULT_PAGE_SIZE));
 
     // if first/last defined on args, then it is a cursor based pagination change
@@ -517,10 +514,10 @@ export class GraphqlService implements BackendService {
     if (this.options?.isWithCursor) {
       // use cursor based pagination
       // when using cursor pagination, expect to be given a PaginationCursorChangedArgs as arguments,
-      // but still handle the case where it's not (can happen when initial configuration not pre-configured (automatically corrects itself next updatePageInfo() call))
+      // but still handle the case where it's not (can happen when initial configuration not pre-configured (automatically corrects itself next setCursorPageInfo() call))
       if (cursorArgs && cursorArgs instanceof Object) {
         // remove pageSize and newPage from cursorArgs, otherwise they get put on the query input string
-        // eslint-disable-next-line
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-shadow
         const { pageSize, newPage, ...cursorPaginationOptions } = cursorArgs;
         paginationOptions = cursorPaginationOptions;
       } else {
@@ -536,140 +533,6 @@ export class GraphqlService implements BackendService {
 
     this.updateOptions({ paginationOptions });
   }
-
-  /**
-   * Update the pagination component with it's new page number and size
-   * @param newPage
-   * @param pageSize
-   */
-  // updatePagination(newPage: number, pageSize: number): void;
-  // updatePagination(cursorArgs: PaginationCursorChangedArgs): void;
-  // updatePagination(newPageOrCursorArgs: number | PaginationCursorChangedArgs, pageSize?: number) {
-  //   let paginationOptions: GraphqlPaginationOption | GraphqlCursorPaginationOption = {};
-
-  //   if (this.options?.isWithCursor) {
-  //     // use cursor based pagination
-  //     const cursorArgs = newPageOrCursorArgs;
-  //     if (cursorArgs instanceof Object) {
-  //       // when using cursor pagination, expect to be given a PaginationCursorChangedArgs as arguments
-  //       paginationOptions = newPageOrCursorArgs as PaginationCursorChangedArgs;
-  //     } else {
-  //       // should not happen unless there is an error in initial configuration
-  //       paginationOptions = this.defaultCursorPaginationOptions;
-  //     }
-  //   } else {
-  //     // use offset based pagination
-  //     const newPage = newPageOrCursorArgs as number;
-  //     this._currentPagination = {
-  //       pageNumber: newPage,
-  //       pageSize: pageSize!
-  //     };
-  //     paginationOptions = {
-  //       first: pageSize,
-  //       offset: (newPage > 1) ? ((newPage - 1) * pageSize!) : 0 // recalculate offset but make sure the result is always over 0
-  //     };
-  //   }
-
-  //   // if (typeof newPageOrCursorArgs === 'number' || !this.options?.isWithCursor) {
-  //   //   const newPage = newPageOrCursorArgs as number;
-  //   //   this._currentPagination = {
-  //   //     pageNumber: newPage,
-  //   //     pageSize: pageSize!
-  //   //   };
-  //   //   paginationOptions = {
-  //   //     first: pageSize,
-  //   //     offset: (newPage > 1) ? ((newPage - 1) * pageSize!) : 0 // recalculate offset but make sure the result is always over 0
-  //   //   };
-  //   // } else {
-  //   //   // when using cursor pagination, expect to be given a PaginationCursorChangedArgs as arguments
-  //   //   paginationOptions = newPageOrCursorArgs as PaginationCursorChangedArgs;
-  //   // }
-
-  //   // else {
-  //   //   const newPage = newPageOrCursorArgs as number;
-  //   //   this._currentPagination = {
-  //   //     pageNumber: newPage,
-  //   //     pageSize: pageSize!
-  //   //   };
-  //   //   paginationOptions = {
-  //   //     first: pageSize,
-  //   //     offset: (newPage > 1) ? ((newPage - 1) * pageSize!) : 0 // recalculate offset but make sure the result is always over 0
-  //   //   };
-  //   // }
-
-
-  //   // if (this.options && this.options.isWithCursor) {
-  //   // https://dev.to/jackmarchant/offset-and-cursor-pagination-explained-b89
-  //   // Cursor based pagination does not allow navigation to the middle of the page.
-  //   //   Pagination by page numbers only makes sense in non-relay style pagination
-  //   //   Relay style pagination is better suited to infinite scrolling
-  //   //   relay pagination - infinte scrolling appending data
-  //   //     page1: {startCursor: A, endCursor: B }
-  //   //     page2: {startCursor: A, endCursor: C }
-  //   //     page3: {startCursor: A, endCursor: D }
-
-  //   //   non-relay pagination - Getting page chunks
-  //   //     page1: {startCursor: A, endCursor: B }
-  //   //     page2: {startCursor: B, endCursor: C }
-  //   //     page3: {startCursor: C, endCursor: D }
-
-  //   // if (cursorArgs) {
-  //   //   paginationOptions = cursorArgs;
-  //   // } else {
-  //   //   paginationOptions = {
-  //   //     first: 0
-  //   //   };
-  //   // }
-
-  //   // can only navigate backwards or forwards if an existing PageInfo is set
-  //   // if (!this.pagination || !this.pageInfo || newPage === 1) {
-  //   //   // get the first page
-  //   //   paginationOptions = {
-  //   //     first: pageSize,
-  //   //   };
-  //   // }
-  //   // else if (newPage === Math.ceil(this.pageInfo.totalCount / pageSize)) {
-  //   //   // get the last page
-  //   //   paginationOptions = {
-  //   //     last: pageSize,
-  //   //   };
-  //   // }
-  //   // else if (this.pageInfo && previousPage) {
-  //   //   if (newPage === previousPage) {
-  //   //     // stay on same "page", get data from the current cursor position (pageSize may have changed)
-  //   //     paginationOptions = {
-  //   //       first: pageSize,
-  //   //       after: this.pageInfo.startCursor
-  //   //     };
-  //   //   } else if(newPage > previousPage) {
-  //   //     // navigating forwards - // // https://relay.dev/graphql/connections.htm#sec-Forward-pagination-arguments
-  //   //     paginationOptions = {
-  //   //       first: pageSize,
-  //   //       after: this.pageInfo.endCursor
-  //   //     };
-  //   //   } else if(newPage < previousPage) {
-  //   //     // navigating backwards - // https://relay.dev/graphql/connections.htm#sec-Backward-pagination-arguments
-  //   //     paginationOptions = {
-  //   //       last: pageSize,
-  //   //       before: this.pageInfo.endCursor
-  //   //     };
-  //   //   }
-  //   // }
-  //   // else {
-  //   //   paginationOptions = {
-  //   //     first: pageSize,
-  //   //   };
-  //   // }
-
-  //   // } else {
-  //   //   paginationOptions = {
-  //   //     first: pageSize,
-  //   //     offset: (newPage > 1) ? ((newPage - 1) * pageSize) : 0 // recalculate offset but make sure the result is always over 0
-  //   //   };
-  //   // }
-
-  //   this.updateOptions({ paginationOptions });
-  // }
 
   /**
    * loop through all columns to inspect sorters & update backend service sortingOptions

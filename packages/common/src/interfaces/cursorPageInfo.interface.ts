@@ -1,5 +1,5 @@
-export type PageInfo = {
-/** Do we have a next page from current cursor position? */
+export interface CursorPageInfo {
+  /** Do we have a next page from current cursor position? */
   hasNextPage: boolean;
 
   /** Do we have a previous page from current cursor position? */
@@ -10,4 +10,4 @@ export type PageInfo = {
 
   /** What is the first cursor? */
   startCursor: string;
-};
+}
