@@ -26,7 +26,7 @@ export declare class SlickColumnPicker {
     protected _eventHandler: SlickEventHandler;
     protected _gridUid: string;
     protected _listElm: HTMLSpanElement;
-    protected _menuElm: HTMLDivElement;
+    protected _menuElm: HTMLDivElement | null;
     protected _columnCheckboxes: HTMLInputElement[];
     onColumnsChanged: import("../interfaces/slickEvent.interface").SlickEvent<any>;
     protected _defaults: ColumnPickerOption;
@@ -38,11 +38,13 @@ export declare class SlickColumnPicker {
     set columns(newColumns: Column[]);
     get gridOptions(): GridOption;
     get grid(): SlickGrid;
-    get menuElement(): HTMLDivElement;
+    get menuElement(): HTMLDivElement | null;
     /** Initialize plugin. */
     init(): void;
     /** Dispose (destroy) the SlickGrid 3rd party plugin */
     dispose(): void;
+    disposeMenu(): void;
+    createPickerMenu(): HTMLDivElement;
     /**
      * Get all columns including hidden columns.
      * @returns {Array<Object>} - all columns array
@@ -61,6 +63,6 @@ export declare class SlickColumnPicker {
     protected handleHeaderContextMenu(e: DOMMouseOrTouchEvent<HTMLDivElement>): void;
     protected repositionMenu(event: DOMMouseOrTouchEvent<HTMLDivElement>): void;
     /** Update the Titles of each sections (command, commandTitle, ...) */
-    protected updateAllTitles(options: ColumnPickerOption): void;
+    protected translateTitleLabels(pickerOptions: ColumnPickerOption): void;
 }
 //# sourceMappingURL=slickColumnPicker.d.ts.map

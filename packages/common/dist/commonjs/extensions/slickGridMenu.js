@@ -760,11 +760,13 @@ class SlickGridMenu extends menuBaseClass_1.MenuBaseClass {
         }
     }
     handleMenuItemMouseOver(e, _type, item, level = 0) {
-        if (item.commandItems) {
-            this.repositionSubMenu(e, item, level);
-        }
-        else if (level === 0) {
-            this.disposeSubMenus();
+        if (item !== 'divider' && !item.disabled && !item.divider) {
+            if (item.commandItems) {
+                this.repositionSubMenu(e, item, level);
+            }
+            else if (level === 0) {
+                this.disposeSubMenus();
+            }
         }
     }
     /** Re/Create Command List by adding title, close & list of commands */

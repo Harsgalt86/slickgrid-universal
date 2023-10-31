@@ -194,12 +194,7 @@ class GraphqlService {
     resetPaginationOptions() {
         let paginationOptions;
         if (this.options && this.options.isWithCursor) {
-            // first, last, after, before
-            paginationOptions = {
-                after: '',
-                before: undefined,
-                last: undefined
-            };
+            paginationOptions = this.getInitPaginationOptions();
         }
         else {
             // first, last, offset

@@ -199,12 +199,14 @@ export class MenuFromCellBaseClass extends MenuBaseClass {
         }
     }
     handleMenuItemMouseOver(e, type, item, level = 0) {
-        if (item.commandItems || item.optionItems || item.items) {
-            this.repositionSubMenu(item, type, level, e);
-            this._lastMenuTypeClicked = type;
-        }
-        else if (level === 0) {
-            this.disposeSubMenus();
+        if ((item === null || item === void 0 ? void 0 : item[type]) !== undefined && item !== 'divider' && !item.disabled && !item.divider) {
+            if (item.commandItems || item.optionItems || item.items) {
+                this.repositionSubMenu(item, type, level, e);
+                this._lastMenuTypeClicked = type;
+            }
+            else if (level === 0) {
+                this.disposeSubMenus();
+            }
         }
     }
     handleMenuItemCommandClick(event, type, item, level = 0) {

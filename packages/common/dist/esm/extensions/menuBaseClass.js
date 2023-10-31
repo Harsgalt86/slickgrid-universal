@@ -196,13 +196,6 @@ export class MenuBaseClass {
             // optionally open sub-menu(s) by mouseover
             if (((_a = this._addonOptions) === null || _a === void 0 ? void 0 : _a.subMenuOpenByEvent) === 'mouseover' && typeof itemMouseoverCallback === 'function') {
                 this._bindEventService.bind(commandLiElm, 'mouseover', ((e) => itemMouseoverCallback.call(this, e, itemType, item, level)), undefined, eventGroupName);
-                // this._bindEventService.bind(commandLiElm, 'mouseover', ((e: DOMMouseOrTouchEvent<HTMLDivElement>) => {
-                //   if ((item as MenuCommandItem).commandItems || (item as MenuOptionItem).optionItems || (item as HeaderMenuCommandItem).items) {
-                //     (this as any).repositionSubMenu(item, itemType, args.level, e);
-                //   } else if (level === 0) {
-                //     this.disposeSubMenus();
-                //   }
-                // }) as EventListener);
             }
             // the option/command item could be a sub-menu if it has another list of commands/options
             if (item.commandItems || item.optionItems || item.items) {
