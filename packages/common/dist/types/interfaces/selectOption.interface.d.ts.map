@@ -1,0 +1,1 @@
+{"version":3,"file":"selectOption.interface.d.ts","sourceRoot":"","sources":["../../../src/interfaces/selectOption.interface.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,YAAY;IAC3B,KAAK,EAAE,MAAM,CAAC;IACd,QAAQ,EAAE,MAAM,CAAC;IACjB,KAAK,EAAE,MAAM,GAAG,MAAM,CAAC;IACvB,CAAC,UAAU,EAAE,MAAM,GAAG,MAAM,GAAG,MAAM,CAAC;CACvC"}

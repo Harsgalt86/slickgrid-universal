@@ -1,0 +1,1 @@
+{"version":3,"file":"odataSortingOption.interface.d.ts","sourceRoot":"","sources":["../../../src/interfaces/odataSortingOption.interface.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,aAAa,EAAE,mBAAmB,EAAE,MAAM,6BAA6B,CAAC;AAEtF,MAAM,WAAW,kBAAkB;IACjC,KAAK,EAAE,MAAM,CAAC;IACd,SAAS,EAAE,aAAa,GAAG,mBAAmB,CAAC;CAChD"}

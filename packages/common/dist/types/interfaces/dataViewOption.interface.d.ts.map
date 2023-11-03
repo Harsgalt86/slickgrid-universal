@@ -1,0 +1,1 @@
+{"version":3,"file":"dataViewOption.interface.d.ts","sourceRoot":"","sources":["../../../src/interfaces/dataViewOption.interface.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,8BAA8B,EAAE,MAAM,8CAA8C,CAAC;AAEnG,MAAM,WAAW,cAAc;IAC7B,iFAAiF;IACjF,aAAa,CAAC,EAAE,OAAO,CAAC;IAExB,wGAAwG;IACxG,yBAAyB,CAAC,EAAE,8BAA8B,CAAC;CAC5D"}

@@ -45,7 +45,7 @@ tsconfig.tsbuildinfo
 Thumbs.db
 
 # Distribution folder
-dist
+#dist
 dist-demo
 docs
 
@@ -55,7 +55,7 @@ docs
 **/coverage
 **/.jest-cache
 **/jest-coverage
-**/dist
+#**/dist
 **/*.tgz
 **/junit.xml
 **/test-report.xml

@@ -1,0 +1,1 @@
+{"version":3,"file":"operatorDetail.interface.d.ts","sourceRoot":"","sources":["../../../src/interfaces/operatorDetail.interface.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,cAAc,EAAE,YAAY,EAAE,MAAM,gBAAgB,CAAC;AAEnE,oCAAoC;AACpC,MAAM,WAAW,cAAc;IAC7B,QAAQ,EAAE,cAAc,GAAG,YAAY,CAAC;IACxC,WAAW,EAAE,MAAM,CAAC;CACrB"}
